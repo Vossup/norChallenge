@@ -10,6 +10,18 @@
 <h2>
     Vis biler for @Model.CompanyName
 </h2>
+
+<table class="table">
+    <tr>
+        <th>Company Name </th>
+        <th>Company Id </th>
+    </tr>
+    <tr>
+        <td>@Model.CompanyName</td>
+        <td>@Model.CompanyId</td>
+    </tr>
+</table>
+<hr />
 <form asp-action="Index" data-ajax="true" data-ajax-method="POST" data-ajax-success="onSuccess">
     <input type="hidden" name="companyId" value="@Model.CompanyId" />
     <input type="text" name="licensePlate" />

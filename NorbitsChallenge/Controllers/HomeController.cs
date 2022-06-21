@@ -40,7 +40,7 @@ namespace NorbitsChallenge.Controllers
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
-
+            ViewData["Special"] = "My other information";
             return View();
         }
 
@@ -55,6 +55,28 @@ namespace NorbitsChallenge.Controllers
         {
             return View();
         }
+
+        //Creating a List of all cars to present.
+        public IActionResult ListAllCars()
+        {
+            List<Car> cars = new CarDb(_config).GetAllCars();
+            return View("ListAllCars", cars);
+        }
+
+        //Add a new car
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        //Add a new Car From Form in Create.cshtml
+        [HttpPost]
+        public IActionResult NewCar([FromForm] Car car)
+        {
+            new CarDb(_config).AddCarToDb(car);
+            return RedirectToAction("ListAllCars");
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -40,7 +40,6 @@ namespace NorbitsChallenge.Controllers
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
-            ViewData["Special"] = "My other information";
             return View();
         }
 
@@ -77,18 +76,36 @@ namespace NorbitsChallenge.Controllers
             return RedirectToAction("ListAllCars");
         }
 
+        //Remove a Car From the List.
+        public IActionResult Delete(string id)
+        {
+            Car car = new CarDb(_config).GetCar(id);
+            return View(car);
+        }
 
+        //DeleteCar to remove after confirming deletion on delete page
+        public IActionResult DeleteCar(string Licenseplate)
+        {
+            new CarDb(_config).RemoveCarFromDb(Licenseplate);
+            return RedirectToAction("Index");
+        }
+
+
+
+        //Error Method With No Cache.
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        //Make The Company Model
         private HomeModel GetCompanyModel()
         {
             var companyId = UserHelper.GetLoggedOnUserCompanyId();
             var companyName = new SettingsDb(_config).GetCompanyName(companyId);
-            return new HomeModel { CompanyId = companyId, CompanyName = companyName };
+            var CarsInShopList = new CarDb(_config).GetAllCarsCompany(companyId);
+            return new HomeModel { CompanyId = companyId, CompanyName = companyName, CarsInShop = CarsInShopList };
         }
     }
 }

@@ -12,14 +12,58 @@
 </h2>
 
 <table class="table">
-    <tr>
-        <th>Company Name </th>
-        <th>Company Id </th>
-    </tr>
-    <tr>
-        <td>@Model.CompanyName</td>
-        <td>@Model.CompanyId</td>
-    </tr>
+    <thead>
+        <tr>
+            <th>
+                LicensePlate
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Model
+            </th>
+            <th>
+                Brand
+            </th>
+            <th>
+                TireCount
+            </th>
+            <th>
+                CompanyId
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.CarsInShop) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LicensePlate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Brand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TireCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyId)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new {  id=item.LicensePlate  })
+            </td>
+        </tr>
+}
+    </tbody>
 </table>
 <hr />
 <form asp-action="Index" data-ajax="true" data-ajax-method="POST" data-ajax-success="onSuccess">

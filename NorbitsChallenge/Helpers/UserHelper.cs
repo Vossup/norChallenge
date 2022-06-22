@@ -7,9 +7,10 @@ namespace NorbitsChallenge.Helpers
 {
     public static class UserHelper
     {
+        public static int CompanyId = 1;
         public static int GetLoggedOnUserCompanyId()
         {
-            return 1;
+            return CompanyId;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -20,21 +21,11 @@ namespace NorbitsChallenge.Controllers
             _config = config;
         }
 
+        //------ Base Case Pages-------//
         public IActionResult Index()
         {
             var model = GetCompanyModel();
             return View(model);
-        }
-
-        [HttpPost]
-        public JsonResult Index(int companyId, string licensePlate)
-        {
-            var tireCount = new CarDb(_config).GetTireCount(companyId, licensePlate);
-
-            var model = GetCompanyModel();
-            model.TireCount = tireCount;
-
-            return Json(model);
         }
 
         public IActionResult About()
@@ -54,21 +45,23 @@ namespace NorbitsChallenge.Controllers
         {
             return View();
         }
+        //------ Base Case Pages End-------//
 
-        //Creating a List of all cars to present.
+
+        //Creating a List of all cars to present.//
         public IActionResult ListAllCars()
         {
             List<Car> cars = new CarDb(_config).GetAllCars();
             return View("ListAllCars", cars);
         }
 
-        //Add a new car
+        //Add a new car//
         public IActionResult Create()
         {
             return View();
         }
 
-        //Add a new Car From Form in Create.cshtml
+        //Add a new Car From Form in Create.cshtml//
         [HttpPost]
         public IActionResult NewCar([FromForm] Car car)
         {
@@ -83,23 +76,37 @@ namespace NorbitsChallenge.Controllers
             return View(car);
         }
 
-        //DeleteCar to remove after confirming deletion on delete page
+        //DeleteCar to remove after confirming deletion on delete page//
         public IActionResult DeleteCar(string Licenseplate)
         {
             new CarDb(_config).RemoveCarFromDb(Licenseplate);
             return RedirectToAction("Index");
         }
 
+        //Go To Edit Car Page//
+        public IActionResult Edit(string id)
+        {
+            Car car = new CarDb(_config).GetCar(id);
+            return View(car);
+        }
+
+        //Edit Car Function//
+        [HttpPost]
+        public IActionResult EditCar([FromForm] Car car)
+        {
+            new CarDb(_config).UpdateCarDb(car);
+            return RedirectToAction("Index");
+        }
 
 
-        //Error Method With No Cache.
+        //Error Method With No Cache.//
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        //Make The Company Model
+        //Make The Company Model//
         private HomeModel GetCompanyModel()
         {
             var companyId = UserHelper.GetLoggedOnUserCompanyId();

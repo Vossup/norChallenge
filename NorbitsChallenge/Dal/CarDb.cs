@@ -172,5 +172,28 @@ namespace NorbitsChallenge.Dal
                 }
             }
         }
+
+        //Update Car Information
+        public void UpdateCarDb(Car car)
+        {
+            var connectionString = _config.GetSection("ConnectionString").Value;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand { Connection = connection, CommandType = CommandType.Text })
+                {
+                    command.CommandText =
+                        $"Update Car " +
+                        $"set Description = '{car.Description}'," +
+                        $"Model = '{car.Model}'," +
+                        $"Brand = '{car.Brand}'," +
+                        $"TireCount = {car.TireCount}," +
+                        $"CompanyId = {car.CompanyId} " +
+                        $"where LicensePlate = '{car.LicensePlate}'";
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

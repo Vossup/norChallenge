@@ -79,6 +79,7 @@ namespace NorbitsChallenge.Dal
             return settings;
         }
 
+        //Unused for now since i changed functionality of the original site where it was implemented.
         public void UpdateSetting(Setting setting, int companyId)
         {
             var connectionString = _config.GetSection("ConnectionString").Value;

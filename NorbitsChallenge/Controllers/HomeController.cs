@@ -22,9 +22,16 @@ namespace NorbitsChallenge.Controllers
         }
 
         //------ Base Case Pages-------//
-        public IActionResult Index()
+        public IActionResult Index(string SearchString)
         {
             var model = GetCompanyModel();
+
+            //filtering list of cars based on SearchString from form, based on licenseplates.
+            if(model.CarsInShop.Count != 0 && !String.IsNullOrEmpty(SearchString)){
+                var filteredCars = from car in model.CarsInShop select car;
+                model.CarsInShop = filteredCars.Where(car => car.LicensePlate.Contains(SearchString)).ToList();
+            };
+
             return View(model);
         }
 

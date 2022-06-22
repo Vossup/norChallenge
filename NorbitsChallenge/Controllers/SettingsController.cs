@@ -23,17 +23,12 @@ namespace NorbitsChallenge.Controllers
         {
             return View();
         }
-        public IActionResult ChangeCompany(int companyId)
+        //Function for changing logged on user variable in user helper, thus changing account.
+        public IActionResult ChangeCompany(int CompanyId)
         {
-            UserHelper.CompanyId = companyId;
+            UserHelper.CompanyId = CompanyId;
             
             return RedirectToAction("Index", "Home", new { area = "" });
-        }
-
-        [HttpPost]
-        public IActionResult Update( int CompanyId)
-        {
-            return RedirectToAction("ChangeCompany", new {companyId = CompanyId});
         }
     }
 }

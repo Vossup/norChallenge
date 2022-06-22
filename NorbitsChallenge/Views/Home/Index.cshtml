@@ -63,12 +63,17 @@
     </tbody>
 </table>
 <hr />
-<form asp-action="Index" data-ajax="true" data-ajax-method="POST" data-ajax-success="onSuccess">
-    <p>Søk etter bil på verkstaden: </p>
-    <input type="hidden" name="companyId" value="@Model.CompanyId" />
-    <input type="text" name="licensePlate" placeholder="Registreringsnummer" style="display: inline" />
-    <input type="submit" value="Søk" />
-</form>
+<br/>
+
+<p>Registreringsnummer:</p>
+<p>
+    @using (Html.BeginForm())
+    {
+        <p>@Html.TextBox("SearchString") <br/>
+            <input type="submit" value="Search/Filter"/>
+        </p>
+    }
+</p>
 
 <hr/>
-<h4>Gå til <a asp-action="Index" asp-controller="Settings">Innstillinger</a></h4>
+<h4>Skift <a asp-action="Index" asp-controller="Settings">Verkstad</a></h4>

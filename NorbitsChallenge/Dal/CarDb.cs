@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using NorbitsChallenge.Models;
+using NorbitsChallenge.Helpers;
 
 namespace NorbitsChallenge.Dal
 {
@@ -23,6 +24,7 @@ namespace NorbitsChallenge.Dal
             int result = 0;
 
             var connectionString = _config.GetSection("ConnectionString").Value;
+
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -151,7 +153,14 @@ namespace NorbitsChallenge.Dal
                 connection.Open();
                 using (var command = new SqlCommand { Connection = connection, CommandType = CommandType.Text })
                 {
-                    command.CommandText = $"insert into Car values ('{car.LicensePlate}', '{car.Description}', '{car.Model}', '{car.Brand}', {car.TireCount}, {car.CompanyId})";
+                    command.Parameters.AddWithValue("@LicensePlate", $"{car.LicensePlate}");
+                    command.Parameters.AddWithValue("@Description", $"{car.Description}");
+                    command.Parameters.AddWithValue("@Model", $"{car.Model}");
+                    command.Parameters.AddWithValue("@Brand", $"{car.Brand}");
+                    command.Parameters.AddWithValue("@TireCount", car.TireCount);
+                    command.Parameters.AddWithValue("@CompanyId", car.CompanyId);
+
+                    command.CommandText = $"insert into Car values (@LicensePlate, @Description, @Model, @Brand, @TireCount, @CompanyId)";
                     command.ExecuteNonQuery();
                 }
             }
@@ -167,7 +176,9 @@ namespace NorbitsChallenge.Dal
                 connection.Open();
                 using(var command = new SqlCommand { Connection = connection, CommandType = CommandType.Text })
                 {
-                    command.CommandText = $"Delete from Car where LicensePlate = '{LicensePlate}'";
+                    command.Parameters.AddWithValue("@LicensePlate", $"{LicensePlate}");
+
+                    command.CommandText = $"Delete from Car where LicensePlate = @LicensePlate";
                     command.ExecuteNonQuery();
                 }
             }
@@ -183,14 +194,21 @@ namespace NorbitsChallenge.Dal
                 connection.Open();
                 using (var command = new SqlCommand { Connection = connection, CommandType = CommandType.Text })
                 {
+                    command.Parameters.AddWithValue("@Description", $"{car.Description}");
+                    command.Parameters.AddWithValue("Model", $"{car.Model}");
+                    command.Parameters.AddWithValue("Brand", $"{car.Brand}");
+                    command.Parameters.AddWithValue("TireCount", car.TireCount);
+                    command.Parameters.AddWithValue("CompanyId", car.CompanyId);
+                    command.Parameters.AddWithValue("@LicensePlate", $"{car.LicensePlate}");
+
                     command.CommandText =
                         $"Update Car " +
-                        $"set Description = '{car.Description}'," +
-                        $"Model = '{car.Model}'," +
-                        $"Brand = '{car.Brand}'," +
-                        $"TireCount = {car.TireCount}," +
-                        $"CompanyId = {car.CompanyId} " +
-                        $"where LicensePlate = '{car.LicensePlate}'";
+                        $"set Description = @Description," +
+                        $"Model = @Model," +
+                        $"Brand = @Brand," +
+                        $"TireCount = @TireCount," +
+                        $"CompanyId = @CompanyId " +
+                        $"where LicensePlate = @LicensePlate";
                     command.ExecuteNonQuery();
                 }
             }

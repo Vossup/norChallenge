@@ -28,7 +28,7 @@ namespace NorbitsChallenge.Controllers
         {
             UserHelper.CompanyId = CompanyId;
             
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return RedirectToAction("Index", "Home"/*, new { area = "" }*/);
         }
     }
 }

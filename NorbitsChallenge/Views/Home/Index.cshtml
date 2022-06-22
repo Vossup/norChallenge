@@ -4,9 +4,16 @@
 
     ViewData["Title"] = "Home Page";
 }
+@if (!String.IsNullOrEmpty(Model.CompanyName))
+{
 <h2>
     Vis biler for @Model.CompanyName
-</h2>
+    </h2>
+}
+else
+{
+    <h2>Biler utan verkstad</h2>
+}
 
 <table class="table">
     <thead>

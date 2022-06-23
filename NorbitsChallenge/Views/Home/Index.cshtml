@@ -73,14 +73,16 @@ else
 <br/>
 
 <p>Registreringsnummer:</p>
-<p>
+<p1>
     @using (Html.BeginForm())
     {
+        @Html.AntiForgeryToken();
+
         <p>@Html.TextBox("SearchString") <br/>
             <input type="submit" value="Search/Filter"/>
         </p>
     }
-</p>
+</p1>
 
 <hr/>
 <h4>Skift <a asp-action="Index" asp-controller="Settings">Verkstad</a></h4>

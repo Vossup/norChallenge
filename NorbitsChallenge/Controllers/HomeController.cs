@@ -73,6 +73,7 @@ namespace NorbitsChallenge.Controllers
         [HttpPost]
         public IActionResult NewCar([FromForm] Car car)
         {
+            var lc = car.LicensePlate;
             new CarDb(_config).AddCarToDb(car);
             return RedirectToAction("ListAllCars");
         }

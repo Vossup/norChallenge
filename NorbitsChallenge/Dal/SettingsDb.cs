@@ -58,7 +58,7 @@ namespace NorbitsChallenge.Dal
                 using (var command = new SqlCommand { Connection = connection, CommandType = CommandType.Text })
                 {
 
-                    command.Parameters.AddWithValue("@companyId", companyId);
+                    command.Parameters.AddWithValue("companyId", companyId);
                     command.CommandText = $"select * from settings where companyId = @companyId";
 
                     using (var reader = command.ExecuteReader())

@@ -31,7 +31,7 @@ namespace NorbitsChallenge.Dal
                 connection.Open();
                 using (var command = new SqlCommand { Connection = connection, CommandType = CommandType.Text })
                 {
-                    command.Parameters.AddWithValue("@LicensePlate", $"{licensePlate}");
+                    command.Parameters.AddWithValue("LicensePlate", $"{licensePlate}");
 
                     command.CommandText = $"select * from car where licenseplate = @LicensePlate";
 
@@ -64,7 +64,7 @@ namespace NorbitsChallenge.Dal
                 connection.Open();
                 using (var command = new SqlCommand { Connection = connection, CommandType = CommandType.Text })
                 {
-                    command.Parameters.AddWithValue("@companyId", companyId);
+                    command.Parameters.AddWithValue("companyId", companyId);
                     command.CommandText = $"select * from car where companyId = @companyId";
 
                     using (var reader = command.ExecuteReader())
@@ -129,12 +129,12 @@ namespace NorbitsChallenge.Dal
                 connection.Open();
                 using (var command = new SqlCommand { Connection = connection, CommandType = CommandType.Text })
                 {
-                    command.Parameters.AddWithValue("@LicensePlate", $"{car.LicensePlate}");
-                    command.Parameters.AddWithValue("@Description", $"{car.Description}");
-                    command.Parameters.AddWithValue("@Model", $"{car.Model}");
-                    command.Parameters.AddWithValue("@Brand", $"{car.Brand}");
-                    command.Parameters.AddWithValue("@TireCount", car.TireCount);
-                    command.Parameters.AddWithValue("@CompanyId", car.CompanyId);
+                    command.Parameters.AddWithValue("LicensePlate", $"{car.LicensePlate}");
+                    command.Parameters.AddWithValue("Description", $"{car.Description}");
+                    command.Parameters.AddWithValue("Model", $"{car.Model}");
+                    command.Parameters.AddWithValue("Brand", $"{car.Brand}");
+                    command.Parameters.AddWithValue("TireCount", car.TireCount);
+                    command.Parameters.AddWithValue("CompanyId", car.CompanyId);
 
                     command.CommandText = $"insert into Car values (@LicensePlate, @Description, @Model, @Brand, @TireCount, @CompanyId)";
                     command.ExecuteNonQuery();
@@ -152,7 +152,7 @@ namespace NorbitsChallenge.Dal
                 connection.Open();
                 using(var command = new SqlCommand { Connection = connection, CommandType = CommandType.Text })
                 {
-                    command.Parameters.AddWithValue("@LicensePlate", $"{LicensePlate}");
+                    command.Parameters.AddWithValue("LicensePlate", $"{LicensePlate}");
 
                     command.CommandText = $"Delete from Car where LicensePlate = @LicensePlate";
                     command.ExecuteNonQuery();
@@ -170,12 +170,12 @@ namespace NorbitsChallenge.Dal
                 connection.Open();
                 using (var command = new SqlCommand { Connection = connection, CommandType = CommandType.Text })
                 {
-                    command.Parameters.AddWithValue("@Description", $"{car.Description}");
-                    command.Parameters.AddWithValue("Model", $"{car.Model}");
-                    command.Parameters.AddWithValue("Brand", $"{car.Brand}");
+                    command.Parameters.AddWithValue("Description", car.Description);
+                    command.Parameters.AddWithValue("Model", car.Model);
+                    command.Parameters.AddWithValue("Brand", car.Brand);
                     command.Parameters.AddWithValue("TireCount", car.TireCount);
                     command.Parameters.AddWithValue("CompanyId", car.CompanyId);
-                    command.Parameters.AddWithValue("@LicensePlate", $"{car.LicensePlate}");
+                    command.Parameters.AddWithValue("LicensePlate", car.LicensePlate);
 
                     command.CommandText =
                         $"Update Car " +

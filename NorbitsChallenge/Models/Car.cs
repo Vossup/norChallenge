@@ -18,9 +18,9 @@ namespace NorbitsChallenge.Models
         {
                 
         }
-        //setting regex rules for creation of license plates.
+        //setting regex rules for creation of license plates. @"/^[a-zA-Z0-9_.-]*$/gm"
         [Required(ErrorMessage = "License Plate Can not be empty", AllowEmptyStrings = false)]
-        [RegularExpression(@"/^[a-zA-Z0-9_.-]*$/gm", ErrorMessage = "License Plate can not contain special characters")]
+        [RegularExpression(@"^\w+$" , ErrorMessage = "License Plate can not contain special characters")]
         public string LicensePlate { get; set; }
 
         [Required]

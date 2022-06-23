@@ -43,7 +43,6 @@ namespace NorbitsChallenge.Dal
                     }
                 }
             }
-
             return companyName;
         }
 
@@ -58,7 +57,9 @@ namespace NorbitsChallenge.Dal
                 connection.Open();
                 using (var command = new SqlCommand { Connection = connection, CommandType = CommandType.Text })
                 {
-                    command.CommandText = $"select * from settings where companyId = {companyId}";
+
+                    command.Parameters.AddWithValue("@companyId", companyId);
+                    command.CommandText = $"select * from settings where companyId = @companyId";
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -75,25 +76,7 @@ namespace NorbitsChallenge.Dal
                     }
                 }
             }
-
             return settings;
-        }
-
-        //Unused for now since i changed functionality of the original site where it was implemented.
-        public void UpdateSetting(Setting setting, int companyId)
-        {
-            var connectionString = _config.GetSection("ConnectionString").Value;
-
-            using (var connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                using (var command = new SqlCommand {Connection = connection, CommandType = CommandType.Text})
-                {
-                    command.CommandText = $"update settings set settingValue = '{setting.Value}' where setting = '{setting.Key}'";
-
-                    command.ExecuteNonQuery();
-                }
-            }
         }
     }
 }

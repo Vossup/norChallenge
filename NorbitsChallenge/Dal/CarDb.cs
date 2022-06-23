@@ -19,33 +19,6 @@ namespace NorbitsChallenge.Dal
             _config = config;
         }
 
-        public int GetTireCount(int companyId, string licensePlate)
-        {
-            int result = 0;
-
-            var connectionString = _config.GetSection("ConnectionString").Value;
-
-
-            using (var connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                using (var command = new SqlCommand {Connection = connection, CommandType = CommandType.Text})
-                {
-                    command.CommandText = $"select * from car where companyId = {companyId} and licenseplate = '{licensePlate}'";
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            result = (int) reader["tireCount"];
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-
         //Get Single Car.
         public Car GetCar(string licensePlate)
         {
@@ -58,7 +31,9 @@ namespace NorbitsChallenge.Dal
                 connection.Open();
                 using (var command = new SqlCommand { Connection = connection, CommandType = CommandType.Text })
                 {
-                    command.CommandText = $"select * from car where licenseplate = '{licensePlate}'";
+                    command.Parameters.AddWithValue("@LicensePlate", $"{licensePlate}");
+
+                    command.CommandText = $"select * from car where licenseplate = @LicensePlate";
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -89,7 +64,8 @@ namespace NorbitsChallenge.Dal
                 connection.Open();
                 using (var command = new SqlCommand { Connection = connection, CommandType = CommandType.Text })
                 {
-                    command.CommandText = $"select * from car where companyId = {companyId}";
+                    command.Parameters.AddWithValue("@companyId", companyId);
+                    command.CommandText = $"select * from car where companyId = @companyId";
 
                     using (var reader = command.ExecuteReader())
                     {
